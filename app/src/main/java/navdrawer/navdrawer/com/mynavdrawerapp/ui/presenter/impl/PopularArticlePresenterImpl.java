@@ -10,18 +10,18 @@ import io.reactivex.schedulers.Schedulers;
 import navdrawer.navdrawer.com.mynavdrawerapp.common.constant.Constants;
 import navdrawer.navdrawer.com.mynavdrawerapp.contract.PopularArticlesContract;
 import navdrawer.navdrawer.com.mynavdrawerapp.dataaccess.network.dto.PopularArticlesResponse;
-import navdrawer.navdrawer.com.mynavdrawerapp.repo.PopularArticleRepo;
+import navdrawer.navdrawer.com.mynavdrawerapp.usecase.PopularArticlesUsecase;
 
 
 public class PopularArticlePresenterImpl implements PopularArticlesContract.PopularArticlePresenter {
 
     PopularArticlesContract.PopularArticlesView view;
     private String TAG = "PopularArticlePresenterImpl";
-    private PopularArticleRepo repo;
+    private PopularArticlesUsecase usecase;
     DisposableObserver<PopularArticlesResponse> disposableObserver;
 
-    public PopularArticlePresenterImpl(PopularArticleRepo repo) {
-        this.repo = repo;
+    public PopularArticlePresenterImpl(PopularArticlesUsecase usecase) {
+        this.usecase = usecase;
     }
 
     public void setView(PopularArticlesContract.PopularArticlesView view) {
@@ -31,7 +31,7 @@ public class PopularArticlePresenterImpl implements PopularArticlesContract.Popu
     @Override
     public void getPopularArticles() {
         DisposableObserver<PopularArticlesResponse> callback = getObserver();
-        disposableObserver = repo.getPopularArticles(Constants.API_KEY)
+        disposableObserver = usecase.getPopularArticles(Constants.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(callback);

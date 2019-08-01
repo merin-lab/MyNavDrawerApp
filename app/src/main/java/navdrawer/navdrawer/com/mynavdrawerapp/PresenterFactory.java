@@ -5,13 +5,15 @@ import navdrawer.navdrawer.com.mynavdrawerapp.dataaccess.network.impl.PopularArt
 import navdrawer.navdrawer.com.mynavdrawerapp.repo.PopularArticleRepo;
 import navdrawer.navdrawer.com.mynavdrawerapp.repo.impl.PopularArticleRepoImpl;
 import navdrawer.navdrawer.com.mynavdrawerapp.ui.presenter.impl.PopularArticlePresenterImpl;
+import navdrawer.navdrawer.com.mynavdrawerapp.usecase.PopularArticlesUsecase;
+import navdrawer.navdrawer.com.mynavdrawerapp.usecase.impl.PopularArticlesUsecaseImpl;
 
 public class PresenterFactory {
 
     public static PopularArticlePresenterImpl createMainPresenter() {
         PopularArticleDao popularArticleDao = new PopularArticleDaoImpl();
         PopularArticleRepo repo = new PopularArticleRepoImpl(popularArticleDao);
-
-        return new PopularArticlePresenterImpl(repo);
+        PopularArticlesUsecase usecase = new PopularArticlesUsecaseImpl(repo);
+        return new PopularArticlePresenterImpl(usecase);
     }
 }
