@@ -18,23 +18,24 @@ public class PopularArticlePresenterImpl implements PopularArticlesContract.Popu
     PopularArticlesContract.PopularArticlesView view;
     private String TAG = "PopularArticlePresenterImpl";
     private PopularArticlesUsecase usecase;
-    DisposableObserver<PopularArticlesResponse> disposableObserver;
 
     public PopularArticlePresenterImpl(PopularArticlesUsecase usecase) {
         this.usecase = usecase;
     }
 
-    public void setView(PopularArticlesContract.PopularArticlesView view) {
-        this.view = view;
-    }
 
     @Override
     public void getPopularArticles() {
         DisposableObserver<PopularArticlesResponse> callback = getObserver();
-        disposableObserver = usecase.getPopularArticles(Constants.API_KEY)
+        DisposableObserver<PopularArticlesResponse> disposableObserver = usecase.getPopularArticles(Constants.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(callback);
+    }
+
+    @Override
+    public void setView(PopularArticlesContract.PopularArticlesView view) {
+        this.view = view;
     }
 
     public DisposableObserver<PopularArticlesResponse> getObserver() {

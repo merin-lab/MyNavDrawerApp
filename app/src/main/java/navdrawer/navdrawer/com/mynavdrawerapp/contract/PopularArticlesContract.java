@@ -18,6 +18,7 @@ public class PopularArticlesContract {
 
     public interface PopularArticlePresenter {
         void getPopularArticles();
+        void setView(PopularArticlesContract.PopularArticlesView view);
 
     }
 }
